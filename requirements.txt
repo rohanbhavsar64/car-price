@@ -1,7 +1,6 @@
 streamlit
 pandas
 numpy
-matplotlib
 sklearn.model_selection
 sklearn.linear_model
 sklearn.preprocessing
