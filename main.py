@@ -95,7 +95,7 @@ if a!=b:
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
-    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket']].dropna()
+    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
     temp_df = temp_df[temp_df['ball_left'] != 0]
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
@@ -111,7 +111,7 @@ def match_progression(x_df,match_id,pipe):
     new_wickets = wickets[:]
     new_wickets.insert(0,10)
     wickets.append(0)
-    w = np.array(wickets_left)
+    w = np.array(wickets)
     nw = np.array(new_wickets)
     temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
     
