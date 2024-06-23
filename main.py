@@ -15,11 +15,8 @@ xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,random_state=1)
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 ohe=OneHotEncoder()
-ohe.fit(x[['batting_team','bowling_team','city']])
-
 trf = ColumnTransformer([
-    ('trf',OneHotEncoder(categories=ohe.categories_),['batting_team','bowling_team','city'])
-]
+    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city','batsman','non_striker'])],remainder='passthrough')
 ,remainder='passthrough')
 from sklearn.linear_model import LogisticRegression
 from sklearn import linear_model
@@ -95,7 +92,7 @@ if a!=b:
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
-    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
+    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket']].dropna()
     temp_df = temp_df[temp_df['ball_left'] != 0]
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
