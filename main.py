@@ -95,8 +95,8 @@ if a!=b:
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
-    temp_df = match[['batting_team','bowling_team','city','runs_left','balls_left','wickets','total_runs_x','crr','rrr']].dropna()
-    temp_df = temp_df[temp_df['balls_left'] != 0]
+    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket']].dropna()
+    temp_df = temp_df[temp_df['ball_left'] != 0]
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
     temp_df['win'] = np.round(result.T[1]*100,1)
@@ -107,11 +107,11 @@ def match_progression(x_df,match_id,pipe):
     new_runs = runs[:]
     runs.insert(0,target)
     temp_df['runs_after_over'] = np.array(runs)[:-1] - np.array(new_runs)
-    wickets = list(temp_df['wickets'].values)
+    wickets = list(temp_df['wickets_left'].values)
     new_wickets = wickets[:]
     new_wickets.insert(0,10)
     wickets.append(0)
-    w = np.array(wickets)
+    w = np.array(wickets_left)
     nw = np.array(new_wickets)
     temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
     
@@ -129,3 +129,4 @@ plt.plot(temp_df['end_of_over'],temp_df['lose'],color='red',linewidth=4)
 plt.bar(temp_df['end_of_over'],temp_df['runs_after_over'])
 plt.title('Target-' + str(target))
 st.write(plt.show())
+
