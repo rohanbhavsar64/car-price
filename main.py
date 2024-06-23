@@ -16,7 +16,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 ohe=OneHotEncoder()
 trf = ColumnTransformer([
-    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city','batsman','non_striker'])],remainder='passthrough')
+    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city'])],remainder='passthrough')
 from sklearn.linear_model import LogisticRegression
 from sklearn import linear_model
 from sklearn.neighbors import KNeighborsClassifier
