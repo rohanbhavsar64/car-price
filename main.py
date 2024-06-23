@@ -88,5 +88,31 @@ if a!=b:
         #i1=sns.barplot(x='result',y='total_runs_x',data=df)
         #st.pyplot(plt.gcf())
         #st.write(df['result'].value_counts())
+def match_progression(x_df,match_id,pipe):
+    match = x_df[x_df['match_id'] == match_id]
+    match = match[(match['ball'] == 6)]
+    temp_df = match[['batting_team','bowling_team','city','batsman', 'non_striker','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
+    temp_df = temp_df[temp_df['ball_left'] != 0]
+    result = pipe.predict_proba(temp_df)
+    temp_df['lose'] = np.round(result.T[0]*100,1)
+    temp_df['win'] = np.round(result.T[1]*100,1)
+    temp_df['end_of_over'] = range(1,temp_df.shape[0]+1)
+    
+    target = temp_df['total_runs_x'].values[0]
+    runs = list(temp_df['runs_left'].values)
+    new_runs = runs[:]
+    runs.insert(0,target)
+    temp_df['runs_after_over'] = np.array(runs)[:-1] - np.array(new_runs)
+    wickets = list(temp_df['wickets_left'].values)
+    new_wickets = wickets[:]
+    new_wickets.insert(0,10)
+    wickets.append(0)
+    w = np.array(wickets)
+    nw = np.array(new_wickets)
+    temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
+    
+    print("Target-",target)
+    temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
+    return temp_df,target
 
 
