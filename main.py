@@ -5,6 +5,8 @@ import numpy as np
 #from streamlit_lottie import st_lottie
 final_df = pd.read_csv('result.csv')
 final_df=final_df.drop(columns=['Unnamed: 0'])
+delivery_df=pd.read_csv('deliveries.csv')
+match = pd.read_csv('matches.csv')
 # st.write(df)
 x=final_df.drop(columns='result')
 y=final_df['result']
@@ -90,4 +92,39 @@ if a!=b:
         #i1=sns.barplot(x='result',y='total_runs_x',data=df)
         #st.pyplot(plt.gcf())
         #st.write(df['result'].value_counts())
-
+def match_progression(x_df,match_id,pipe):
+    match = x_df[x_df['match_id'] == match_id]
+    match = match[(match['ball'] == 6)]
+    temp_df = match[['batting_team','bowling_team','city','runs_left','balls_left','wickets','total_runs_x','crr','rrr']].dropna()
+    temp_df = temp_df[temp_df['balls_left'] != 0]
+    result = pipe.predict_proba(temp_df)
+    temp_df['lose'] = np.round(result.T[0]*100,1)
+    temp_df['win'] = np.round(result.T[1]*100,1)
+    temp_df['end_of_over'] = range(1,temp_df.shape[0]+1)
+    
+    target = temp_df['total_runs_x'].values[0]
+    runs = list(temp_df['runs_left'].values)
+    new_runs = runs[:]
+    runs.insert(0,target)
+    temp_df['runs_after_over'] = np.array(runs)[:-1] - np.array(new_runs)
+    wickets = list(temp_df['wickets'].values)
+    new_wickets = wickets[:]
+    new_wickets.insert(0,10)
+    wickets.append(0)
+    w = np.array(wickets)
+    nw = np.array(new_wickets)
+    temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
+    
+    print("Target-",target)
+    temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
+    return temp_df,target
+    
+temp_df,target = match_progression(delivery_df,74,pipe)
+temp_df
+import matplotlib.pyplot as plt
+plt.figure(figsize=(18,8))
+plt.plot(temp_df['end_of_over'],temp_df['wickets_in_over'],color='yellow',linewidth=3)
+plt.plot(temp_df['end_of_over'],temp_df['win'],color='#00a65a',linewidth=4)
+plt.plot(temp_df['end_of_over'],temp_df['lose'],color='red',linewidth=4)
+plt.bar(temp_df['end_of_over'],temp_df['runs_after_over'])
+plt.title('Target-' + str(target))
