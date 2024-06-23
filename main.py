@@ -91,7 +91,7 @@ if a!=b:
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
-    temp_df = match[['batting_team','bowling_team','city','batsman', 'non_striker','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
+    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
     temp_df = temp_df[temp_df['ball_left'] != 0]
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
@@ -114,5 +114,13 @@ def match_progression(x_df,match_id,pipe):
     print("Target-",target)
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
-
+temp_df,target = match_progression(delivery_df,334,pipe)
+temp_df
+import matplotlib.pyplot as plt
+plt.figure(figsize=(18,8))
+plt.scatter(temp_df['end_of_over'],temp_df['wickets_in_over'],color='red')
+plt.plot(temp_df['end_of_over'],temp_df['win'],color='#00a65a',linewidth=4)
+plt.plot(temp_df['end_of_over'],temp_df['lose'],color='red',linewidth=4)
+plt.bar(temp_df['end_of_over'],temp_df['runs_after_over'])
+plt.title('Target-' + str(target))
 
