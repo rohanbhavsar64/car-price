@@ -119,7 +119,8 @@ def match_progression(x_df,match_id,pipe):
     print("Target-",target)
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
-b=st.select_box('Match_id',delivery_df['match_id'].unique())
+g=delivery_df['match_id'].unique()
+b=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,b,pipe)
 temp_df
 import plotly.graph_objects as go
