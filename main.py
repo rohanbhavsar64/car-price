@@ -88,7 +88,6 @@ if a!=b:
         #i1=sns.barplot(x='result',y='total_runs_x',data=df)
         #st.pyplot(plt.gcf())
         #st.write(df['result'].value_counts())
-a=0
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
@@ -96,7 +95,6 @@ def match_progression(x_df,match_id,pipe):
     temp_df = temp_df[temp_df['ball_left'] != 0]
     if temp_df.empty:
         print("Error: Match is not Existed")
-        a=1
         return None, None
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
@@ -120,10 +118,12 @@ def match_progression(x_df,match_id,pipe):
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
 st.title('Analysis of Previous Matches')
+delivery_df=delivery_df[delivery_df['batting_team']==a]
+delivery_df=delivery_df[delivery_df['bowling_team']==b]
 g=delivery_df['match_id'].unique()
-b=st.selectbox('Match_id',g)
+l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,b,pipe)
-st.subheader(delivery_df[delivery_df['match_id']==b]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==b]['bowling_team'].unique())
+st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
 st.text('City : '+delivery_df[delivery_df['match_id']==b]['city'].unique())
 import plotly.graph_objects as go
 if a==0:
