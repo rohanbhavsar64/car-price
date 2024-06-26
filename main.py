@@ -118,8 +118,6 @@ def match_progression(x_df,match_id,pipe):
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
 st.title('Analysis of Previous Matches')
-delivery_df=delivery_df[delivery_df['batting_team']==a]
-delivery_df=delivery_df[delivery_df['bowling_team']==b]
 g=delivery_df['match_id'].unique()
 l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,l,pipe)
