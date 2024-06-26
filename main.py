@@ -5,7 +5,7 @@ import numpy as np
 #from streamlit_lottie import st_lottie
 final_df = pd.read_csv('result.csv')
 final_df=final_df.drop(columns=['Unnamed: 0'])
-delivery_df=pd.read_csv('deliveries.csv')
+delivery_df=pd.read_csv('IPL.csv')
 match = pd.read_csv('matches.csv')
 # st.write(df)
 x=final_df.drop(columns='result')
