@@ -122,7 +122,7 @@ def match_progression(x_df,match_id,pipe):
 g=delivery_df['match_id'].unique()
 b=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,b,pipe)
-st.write(delivery_df[delivery_df['match_id']==b]['batting_team'].unique()+'v/s'+delivery_df[delivery_df['match_id']==b]['bowling_team'].unique())
+st.subheader(delivery_df[delivery_df['match_id']==b]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==b]['bowling_team'].unique())
 import plotly.graph_objects as go
 if a==0:
     fig = go.Figure()
