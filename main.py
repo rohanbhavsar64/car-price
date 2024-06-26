@@ -124,7 +124,7 @@ g=delivery_df['match_id'].unique()
 l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,l,pipe)
 st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
-st.text('City : '+delivery_df[delivery_df['match_id']==b]['city'].unique())
+st.text('City : '+delivery_df[delivery_df['match_id']==l]['city'].unique())
 import plotly.graph_objects as go
 if a==0:
     fig = go.Figure()
