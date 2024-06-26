@@ -118,18 +118,19 @@ def match_progression(x_df,match_id,pipe):
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
 st.title('Analysis of Previous Matches')
+delivery_df=delivery_df[delivery_df['batting_team']==a]
+delivery_df=delivery_df[delivery_df['bowling_team']==b]
 g=delivery_df['match_id'].unique()
 l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,l,pipe)
 st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
 st.text('City : '+delivery_df[delivery_df['match_id']==l]['city'].unique())
 import plotly.graph_objects as go
-if a==0:
-    fig = go.Figure()
-    wicket=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='yellow')))
-    batting_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=3)))
-    bowling_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4)))
-    runs=fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
-    fig.update_layout(title='Target-' + str(target))
-    st.write(fig)
+fig = go.Figure()
+wicket=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='yellow')))
+batting_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=3)))
+bowling_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4)))
+runs=fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
+fig.update_layout(title='Target-' + str(target))
+st.write(fig)
 
