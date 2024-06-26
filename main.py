@@ -88,11 +88,16 @@ if a!=b:
         #i1=sns.barplot(x='result',y='total_runs_x',data=df)
         #st.pyplot(plt.gcf())
         #st.write(df['result'].value_counts())
+a=0
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
     temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket']].fillna(0)
     temp_df = temp_df[temp_df['ball_left'] != 0]
+    if temp_df.empty:
+        print("Error: Match is not Existed")
+        a=1
+        return None, None
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
     temp_df['win'] = np.round(result.T[1]*100,1)
@@ -114,14 +119,16 @@ def match_progression(x_df,match_id,pipe):
     print("Target-",target)
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
-temp_df,target = match_progression(delivery_df,111,pipe)
+b=st.number_input('Match_id')
+temp_df,target = match_progression(delivery_df,b,pipe)
 temp_df
 import plotly.graph_objects as go
-fig = go.Figure()
-wicket=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='yellow')))
-batting_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=3)))
-bowling_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4)))
-runs=fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
-fig.update_layout(title='Target-' + str(target))
-st.write(fig)
+if a==0:
+    fig = go.Figure()
+    wicket=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='yellow')))
+    batting_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=3)))
+    bowling_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4)))
+    runs=fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
+    fig.update_layout(title='Target-' + str(target))
+    st.write(fig)
 
