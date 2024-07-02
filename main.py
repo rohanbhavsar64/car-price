@@ -118,10 +118,17 @@ def match_progression(x_df,match_id,pipe):
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
 st.title('Analysis of Previous Matches')
-delivery_df=delivery_df[delivery_df['batting_team']==a]
-delivery_df=delivery_df[delivery_df['bowling_team']==b]
-df2=pd.read_csv("matches.csv")
-g=delivery_df['match_id'].unique()
+col1,col2,col3=st.columns(3)
+with col1:
+    a1 = st.selectbox('batting_team',sorted(batting))
+with col2:
+    b1 = st.selectbox('bowling_team',sorted(batting))
+with col3:
+    c1=st.selectbox('bowling_team',sorted(match['season'].unique()))
+match=match[match['batting_team']==a1]
+match=match[match['bowling_team']==b1]
+match=match[match['season']==c1]
+g=match['id'].unique()
 l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,l,pipe)
 st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
