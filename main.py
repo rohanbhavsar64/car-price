@@ -129,8 +129,8 @@ with col2:
     b1 = st.selectbox('bowling team',sorted(batting))
 with col3:
     c1=st.selectbox('bowling_team',sorted(match['season'].unique()))
-match=match[match['batting_team']==a1]
-match=match[match['bowling_team']==b1]
+match=match[match['team2']==a1]
+match=match[match['team1']==b1]
 match=match[match['season']==c1]
 g=match['id'].unique()
 l=st.selectbox('Match_id',g)
