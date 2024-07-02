@@ -140,7 +140,7 @@ st.text('City : '+delivery_df[delivery_df['match_id']==l]['city'].unique())
 st.text('Season : '+str(match[match['id']==l]['season'].unique()))
 import plotly.graph_objects as go
 
-if a!= b:
+if a1!= b1:
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
