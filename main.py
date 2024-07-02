@@ -136,4 +136,4 @@ if a!=b:
     bowling_team=fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4)))
     runs=fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
     fig.update_layout(title='Target-' + str(target))
-    st.write(fig.show())
+    st.write(fig)
