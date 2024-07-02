@@ -126,7 +126,7 @@ l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,l,pipe)
 st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
 st.text('City : '+delivery_df[delivery_df['match_id']==l]['city'].unique())
-st.text('Season : '+delivery_df[delivery_df['match_id']==l]['season'].unique())
+st.text('Season : '+match[match['match_id']==l]['season'].unique())
 import plotly.graph_objects as go
 if a!=b:
     import matplotlib.pyplot as plt
