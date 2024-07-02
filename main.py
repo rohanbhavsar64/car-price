@@ -133,9 +133,9 @@ if a!= b:
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
-    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], mode='lines', name='Batting Team Probability', line=dict(color='purple', width=3)))
-    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Bowling Team Probability', line=dict(color='#00a65a', width=4)))
-    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Runs in Over', line=dict(color='red', width=4)))
+    fig.add_trace(go.bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'],name='Runs per over', maker=dict(color='purple')))
+    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Batting Team Probability', line=dict(color='#00a65a', width=4)))
+    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Bowling Team Probability', line=dict(color='red', width=4)))
 
     fig.update_layout(title='Target-' + str(target), legend_title='Legend')
 
