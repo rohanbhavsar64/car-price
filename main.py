@@ -118,6 +118,10 @@ def match_progression(x_df,match_id,pipe):
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
 st.title('Analysis of Previous Matches')
+batting=['Kolkata Knight Riders', 'Royal Challengers Bangalore',
+       'Delhi Daredevils', 'Mumbai Indians', 'Kings XI Punjab',
+       'Deccan Chargers', 'Chennai Super Kings', 'Rajasthan Royals',
+       'Sunrisers Hyderabad', 'Delhi Capitals']
 col1,col2,col3=st.columns(3)
 with col1:
     a1 = st.selectbox('batting_team',sorted(batting))
