@@ -7,6 +7,21 @@ final_df = pd.read_csv('result.csv')
 final_df=final_df.drop(columns=['Unnamed: 0'])
 delivery_df=pd.read_csv('IPL.csv')
 match = pd.read_csv('matches.csv')
+x=final_df.drop(columns='result') 
+y=final_df['result']
+from sklearn.model_selection 
+import train_test_split xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,random_state=1)
+from sklearn.compose import ColumnTransformer 
+from sklearn.preprocessing import OneHotEncoder 
+ohe=OneHotEncoder()
+trf = ColumnTransformer([ ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city'])],remainder='passthrough') 
+from sklearn.linear_model import LogisticRegression 
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn.pipeline import Pipeline 
+pipe=Pipeline( steps=[ ('step1',trf), 
+                       ('step2', LogisticRegression()) ]) 
+pipe.fit(xtrain,ytrain)
+y_pred = pipe.predict(xtest)
 
 st.title('IPL Win Predictor')
 
