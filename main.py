@@ -124,9 +124,9 @@ batting=['Kolkata Knight Riders', 'Royal Challengers Bangalore',
        'Sunrisers Hyderabad', 'Delhi Capitals']
 col1,col2,col3=st.columns(3)
 with col1:
-    a1 = st.selectbox('batting_team',sorted(batting))
+    a1 = st.selectbox('batting team',sorted(batting))
 with col2:
-    b1 = st.selectbox('bowling_team',sorted(batting))
+    b1 = st.selectbox('bowling team',sorted(batting))
 with col3:
     c1=st.selectbox('bowling_team',sorted(match['season'].unique()))
 match=match[match['batting_team']==a1]
