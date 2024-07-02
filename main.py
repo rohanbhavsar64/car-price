@@ -121,7 +121,7 @@ st.title('Analysis of Previous Matches')
 delivery_df=delivery_df[delivery_df['batting_team']==a]
 delivery_df=delivery_df[delivery_df['bowling_team']==b]
 df2=pd.read_csv("matches.csv")
-g=delivery_df['id'].unique()
+g=delivery_df['match_id'].unique()
 l=st.selectbox('Match_id',g)
 temp_df,target = match_progression(delivery_df,l,pipe)
 st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
