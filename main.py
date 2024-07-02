@@ -128,25 +128,15 @@ st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' 
 st.text('City : '+delivery_df[delivery_df['match_id']==l]['city'].unique())
 st.text('Season : '+str(match[match['id']==l]['season'].unique()))
 import plotly.graph_objects as go
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import streamlit as st
-import plotly.graph_objects as go
 
-if a != b:
+if a!= b:
     fig = go.Figure()
 
-    wicket = go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='yellow'))
-    batting_team = go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=3))
-    bowling_team = go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4))
-    runs = go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], marker=dict(color='purple'))
+    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
+    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], mode='lines', name='Batting Team Probability', line=dict(color='purple', width=3)))
+    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Bowling Team Probability', line=dict(color='#00a65a', width=4)))
+    fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Runs in Over', line=dict(color='red', width=4)))
 
-    fig.add_trace(wicket)
-    fig.add_trace(batting_team)
-    fig.add_trace(bowling_team)
-    fig.add_trace(runs)
-
-    fig.update_layout(title='Target-' + str(target))
+    fig.update_layout(title='Target-' + str(target), legend_title='Legend')
 
     st.plotly_chart(fig)
