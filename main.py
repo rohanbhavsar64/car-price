@@ -68,32 +68,66 @@ if part == "Prediction":
             st.write(f"Win probablity of Batting Team:  :red[{probablity}]"+"%")
 
 elif part == "Analysis":
-    # Analysis part
     st.title('Analysis of Previous Matches')
-    batting=['Kolkata Knight Riders', 'Royal Challengers Bangalore',
-           'Delhi Daredevils', 'Mumbai Indians', 'Kings XI Punjab',
-           'Deccan Chargers', 'Chennai Super Kings', 'Rajasthan Royals',
-           'Sunrisers Hyderabad', 'Delhi Capitals']
-    col1,col2,col3=st.columns(3)
+
+    batting = ['Kolkata Knight Riders', 'Royal Challengers Bangalore',
+               'Delhi Daredevils', 'Mumbai Indians', 'Kings XI Punjab',
+               'Deccan Chargers', 'Chennai Super Kings', 'Rajasthan Royals',
+               'Sunrisers Hyderabad', 'Delhi Capitals']
+
+    col1, col2, col3 = st.columns(3)
     with col1:
-        a1 = st.selectbox('batting team',sorted(batting))
+        a1 = st.selectbox('batting team', sorted(batting))
     with col2:
-        b1 = st.selectbox('bowling team',sorted(batting))
+        b1 = st.selectbox('bowling team', sorted(batting))
     with col3:
-        c1=st.selectbox('Season',sorted(match['season'].unique()))
-    match=match[match['team2']==a1]
-    match=match[match['team1']==b1]
-    match=match[match['season']==c1]
-    g=match['id'].unique()
-    l=st.selectbox('Match_id',g)
-    temp_df,target = match_progression(delivery_df,l,pipe)
-    st.subheader(delivery_df[delivery_df['match_id']==l]['batting_team'].unique()+' v/s '+delivery_df[delivery_df['match_id']==l]['bowling_team'].unique())
-    st.text('City : '+delivery_df[delivery_df['match_id']==l]['city'].unique())
-    st.text('Season : '+str(match[match['id']==l]['season'].unique()))
+        c1 = st.selectbox('Season', sorted(match['season'].unique()))
+
+    match = match[match['team2'] == a1]
+    match = match[match['team1'] == b1]
+    match = match[match['season'] == c1]
+    g = match['id'].unique()
+    l = st.selectbox('Match_id', g)
+
+    def match_progression(x_df, match_id, pipe):
+        match = x_df[x_df['match_id'] == match_id]
+        match = match[(match['ball'] == 6)]
+        temp_df = match[['batting_team', 'bowling_team', 'city', 'runs_left', 'ball_left', 'wickets_left', 'total_runs_x', 'crr', 'rrr', 'last_five', 'last_five_wicket']].fillna(0)
+        temp_df = temp_df[temp_df['ball_left']!= 0]
+        if temp_df.empty:
+            print("Error: Match is not Existed")
+            return None, None
+        result = pipe.predict_proba(temp_df)
+        temp_df['lose'] = np.round(result.T[0]*100, 1)
+        temp_df['win'] = np.round(result.T[1]*100, 1)
+        temp_df['end_of_over'] = range(1, temp_df.shape[0]+1)
+        target = temp_df['total_runs_x'].values[0]
+        runs = list(temp_df['runs_left'].values)
+        new_runs = runs[:]
+        runs.insert(0, target)
+        temp_df['runs_after_over'] = np.array(runs)[:-1] - np.array(new_runs)
+        wickets = list(temp_df['wickets_left'].values)
+        new_wickets = wickets[:]
+        new_wickets.insert(0, 10)
+        wickets.append(0)
+        w = np.array(wickets)
+        nw = np.array(new_wickets)
+        temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
+        print("Target-", target)
+        temp_df = temp_df[['end_of_over', 'runs_after_over', 'wickets_in_over', 'lose', 'win']]
+        return temp_df, target
+
+    temp_df, target = match_progression(delivery_df, l, pipe)
+
+    st.subheader(delivery_df[delivery_df['match_id'] == l]['batting_team'].unique() + '/s ' delivery_df[delivery_df['match_id'] == l]['bowling_team'].unique())
+    st.text('City : ' delivery_df[delivery_df['match_id'] == l]['city'].unique())
+    st.text('Season : ' str(match[match['id'] == l]['season'].unique()))
+
+    import plotly.graph_objects as go
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
-    runs=fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over', marker=dict(color='purple'))) 
+    runs = fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over', marker=dict(color='purple')))
     fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Batting Team Probability', line=dict(color='#00a65a', width=4)))
     fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Bowling Team Probability', line=dict(color='red', width=4)))
     fig.update_layout(title='Target-' + str(target), legend_title='Legend')
