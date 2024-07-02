@@ -130,18 +130,23 @@ st.text('Season : '+str(match[match['id']==l]['season'].unique()))
 import plotly.graph_objects as go
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+import streamlit as st
+import plotly.graph_objects as go
 
 if a != b:
-    fig1, fig2, fig3 = st.columns(3)
+    fig = go.Figure()
 
-    with fig1:
-        st.line_chart(temp_df[['win', 'lose']])
-        st.write("Batting and Bowling Team")
+    wicket = go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='yellow'))
+    batting_team = go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=3))
+    bowling_team = go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4))
+    runs = go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], marker=dict(color='purple'))
 
-    with fig2:
-        st.bar_chart(temp_df['runs_after_over'])
-        st.write("Runs After Over")
+    fig.add_trace(wicket)
+    fig.add_trace(batting_team)
+    fig.add_trace(bowling_team)
+    fig.add_trace(runs)
 
-    with fig3:
-        st.scatter_plot(temp_df['end_of_over'], temp_df['wickets_in_over'])
-        st.write("Wickets")
+    fig.update_layout(title='Target-' + str(target))
+
+    st.plotly_chart(fig)
