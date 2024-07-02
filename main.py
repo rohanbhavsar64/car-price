@@ -119,10 +119,6 @@ elif part == "Analysis":
 
     temp_df, target = match_progression(delivery_df, l, pipe)
 
-    st.subheader(delivery_df[delivery_df['match_id'] == l]['batting_team'].unique() + '/s ' delivery_df[delivery_df['match_id'] == l]['bowling_team'].unique())
-    st.text('City : ' delivery_df[delivery_df['match_id'] == l]['city'].unique())
-    st.text('Season : ' str(match[match['id'] == l]['season'].unique()))
-
     import plotly.graph_objects as go
 
     fig = go.Figure()
