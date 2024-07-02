@@ -15,6 +15,8 @@ part = st.sidebar.radio("Select Part", ["Prediction", "Analysis"])
 
 if part == "Prediction":
     # Prediction part
+    batting=final_df['batting_team'].unique()
+    shar=final_df['city'].unique()
     col1,col2,col3=st.columns(3)
     with col1:
         a = st.selectbox('batting_team',sorted(batting))
