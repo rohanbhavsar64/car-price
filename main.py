@@ -136,7 +136,7 @@ elif part == "Analysis":
       r2=match[match['id']==l]['winner'].unique()
       r3=match[match['id']==l]['venue'].unique()
       data = {'Field': ['POM', 'Winner', 'Venue'],
-        'Name': [r1,r2,r3]}
+        'Name': [r1[0],r2[0],r3[0]]}
       fg=pd.DataFrame(data)
       st.table(fg)
       
