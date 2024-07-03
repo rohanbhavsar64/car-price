@@ -132,9 +132,9 @@ elif part == "Analysis":
       fig.update_layout(title='Target-' + str(target), legend_title='Legend')
       st.plotly_chart(fig)
       st.subheader('Summary')
-      r1=match[match['id']==l]['player_of_match']
-      r2=match[match['id']==l]['winner']
-      r3=match[match['id']==l]['venue']
+      r1=match[match['id']==l]['player_of_match'].unique()
+      r2=match[match['id']==l]['winner'].unique()
+      r3=match[match['id']==l]['venue'].unique()
       data = {'Field': ['POM', 'Winner', 'Venue'],
         'Name': [r1,r2,r3]}
       fg=pd.DataFrame(data)
