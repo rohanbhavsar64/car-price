@@ -22,14 +22,13 @@ pipe=Pipeline( steps=[ ('step1',trf),
                        ('step2', LogisticRegression()) ]) 
 pipe.fit(xtrain,ytrain)
 y_pred = pipe.predict(xtest)
-
-st.title('IPL Win Predictor')
-
+st.title('IPL Match Predication & Analysis')
 # Add a radio button to the sidebar
-part = st.sidebar.radio("Select Part", ["Prediction", "Analysis"])
+part = st.radio("Select Part", ["Prediction", "Analysis"])
 
 if part == "Prediction":
     # Prediction part
+    st.title('IPL Win Predictor')
     batting=final_df['batting_team'].unique()
     shar=final_df['city'].unique()
     wic2=[1,2,3,4,5,6,7,8,9,10]
