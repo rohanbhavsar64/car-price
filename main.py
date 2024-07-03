@@ -132,8 +132,8 @@ elif part == "Analysis":
       fig.update_layout(title='Target-' + str(target), legend_title='Legend')
       st.plotly_chart(fig)
       st.subheader('Summary')
-      st.text('POM :'+match[match['id']==l]['player_of_match'])
-      st.text('Winning Team : '+match[match['id']==l]['winner'])
-      st.text('Winning Team : '+match[match['id']==l]['venue'])
+      st.text('POM :'+ str(match[match['id']==l]['player_of_match']))
+      st.text('Winning Team : '+str(match[match['id']==l]['winner']))
+      st.text('Winning Team : '+str(match[match['id']==l]['venue']))
       
       
