@@ -135,7 +135,8 @@ elif part == "Analysis":
       r1=match[match['id']==l]['player_of_match']
       r2=match[match['id']==l]['winner']
       r3=match[match['id']==l]['venue']
-      data=[['POM',r1],['Winning Team',r2],['Venue',r3]]
-      fg=pd.DataFrame(data,coloumns=['Field','Name'])
+      data = {'Field': ['POM', 'Winner', 'Venue'],
+        'Name': [r1,r2,r3]}
+      fg=pd.DataFrame(data)
       st.table(fg)
       
