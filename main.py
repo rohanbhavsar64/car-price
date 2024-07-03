@@ -135,8 +135,11 @@ elif part == "Analysis":
       r1=match[match['id']==l]['player_of_match'].unique()
       r2=match[match['id']==l]['winner'].unique()
       r3=match[match['id']==l]['venue'].unique()
-      data = {'Field': ['POM', 'Winner', 'Venue'],
-        'Name': [r1[0],r2[0],r3[0]]}
+      r4=match[match['id']==l]['city'].unique()
+      r5=match[match['id']==l]['toss_winner'].unique()
+      r6=match[match['id']==l]['dl_applied'].unique()
+      data = {'Field': ['Vanue','City','Toss Winner','DLS Methode','POM', 'Winner'],
+        'Name': [r3[0],r4[0],r5[0],r6[0],r1[0],r2[0]]}
       fg=pd.DataFrame(data)
       st.table(fg)
       
