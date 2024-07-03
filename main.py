@@ -133,10 +133,9 @@ elif part == "Analysis":
       st.plotly_chart(fig)
       st.subheader('Summary')
       r1=match[match['id']==l]['player_of_match']
-      r2=match[match['id']==l]['player_of_match']
+      r2=match[match['id']==l]['winner']
       r3=match[match['id']==l]['venue']
-      st.text('POM :'+ str(r1))
-      st.text('Winning Team : '+str(r2))
-      st.text('Venue : '+str(r3))
-      
+      data=[['POM',r1],['Winning Team',r2],['Venue',r3]]
+      fg=pd.DataFrame(data,coloumns=['Field','Name'])
+      st.table(fg)
       
