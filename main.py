@@ -24,7 +24,7 @@ pipe.fit(xtrain,ytrain)
 y_pred = pipe.predict(xtest)
 st.title('IPL Match Predication & Analysis')
 # Add a radio button to the sidebar
-part = st.radio("Select Part", ["Prediction", "Analysis"])
+part = st.radio(" ", ["Prediction", "Analysis"],horizontal=True)
 
 if part == "Prediction":
     # Prediction part
