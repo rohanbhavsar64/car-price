@@ -76,7 +76,7 @@ elif part == "Analysis":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        a1 = st.selectbox('batting team', sorted(batting))
+      a1 = st.selectbox('batting team', sorted(batting))
     with col2:
         b1 = st.selectbox('bowling team', sorted(batting))
     with col3:
