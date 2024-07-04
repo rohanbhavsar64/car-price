@@ -118,8 +118,6 @@ elif part == "Analysis":
         return temp_df, target
 
     temp_df, target = match_progression(delivery_df, l, pipe)
-
- 
 import plotly.graph_objects as go
 if a1 == b1:
     st.write('No match Available')
