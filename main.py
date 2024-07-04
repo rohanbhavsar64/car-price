@@ -122,7 +122,8 @@ elif part == "Analysis":
     if a1==b1:
       st.write('No match Available')
     elif temp_df.empty:
-      st.write('No match Available')
+            print("Error: Match is not Existed")
+            return None, None
     else:
       fig = go.Figure()
       fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
