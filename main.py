@@ -112,6 +112,7 @@ elif part == "Analysis":
         w = np.array(wickets)
         nw = np.array(new_wickets)
         temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
+        temp_df['score']=temp_df['runs_after_over'].cumsum()
         print("Target-", target)
         temp_df = temp_df[['end_of_over', 'runs_after_over', 'wickets_in_over', 'lose', 'win']]
         return temp_df, target
