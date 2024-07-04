@@ -118,29 +118,30 @@ elif part == "Analysis":
 
     temp_df, target = match_progression(delivery_df, l, pipe)
 
-    import plotly.graph_objects as go
-    if a1==b1:
-      st.write('No match Available')
-    elif temp_df.empty:
-            print("Error: Match is not Existed")
-            return None, None
+ 
+import plotly.graph_objects as go
+if a1 == b1:
+    st.write('No match Available')
+else:
+    if temp_df is None:
+        print("Error: Match is not Existed")
     else:
-      fig = go.Figure()
-      fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
-      runs = fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over', marker=dict(color='purple')))
-      fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Probability of '+a1, line=dict(color='#00a65a', width=4)))
-      fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Probability of '+b1, line=dict(color='red', width=4)))
-      fig.update_layout(title='Target-' + str(target), legend_title='Legend')
-      st.plotly_chart(fig)
-      st.subheader('Summary')
-      r1=match[match['id']==l]['player_of_match'].unique()
-      r2=match[match['id']==l]['winner'].unique()
-      r3=match[match['id']==l]['venue'].unique()
-      r4=match[match['id']==l]['city'].unique()
-      r5=match[match['id']==l]['toss_winner'].unique()
-      r6=match[match['id']==l]['dl_applied'].unique()
-      data = {'Field': ['Vanue','City','Toss Winner','DLS Methode','POM', 'Winner'],
-        'Name': [r3[0],r4[0],r5[0],r6[0],r1[0],r2[0]]}
-      fg=pd.DataFrame(data)
-      st.table(fg)
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
+        runs = fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over', marker=dict(color='purple')))
+        fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Probability of ' a1, line=dict(color='#00a65a', width=4)))
+        fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Probability of ' b1, line=dict(color='red', width=4)))
+        fig.update_layout(title='Target-' + str(target), legend_title='Legend')
+        st.plotly_chart(fig)
+        st.subheader('Summary')
+        r1 = match[match['id'] == l]['player_of_match'].unique()
+        r2 = match[match['id'] == l]['winner'].unique()
+        r3 = match[match['id'] == l]['venue'].unique()
+        r4 = match[match['id'] == l]['city'].unique()
+        r5 = match[match['id'] == l]['toss_winner'].unique()
+        r6 = match[match['id'] == l]['dl_applied'].unique()
+        data = {'Field': ['Vanue', 'City', 'Toss Winner', 'DLS Methode', 'POM', 'Winner'],
+                'Name': [r3[0], r4[0], r5[0], r6[0], r1[0], r2[0]]}
+        fg = pd.DataFrame(data)
+        st.table(fg)
       
