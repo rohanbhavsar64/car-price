@@ -132,7 +132,7 @@ else:
         fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Probability of '+ b1, line=dict(color='red', width=4)))
         fig.update_layout(title='Target-' + str(target), legend_title='Legend')
         st.plotly_chart(fig)
-        st.write(temp_df)
+        st.write(delivery_df[delivery_df['match_id']==l])
         st.subheader('Summary')
         r1 = match[match['id'] == l]['player_of_match'].unique()
         r2 = match[match['id'] == l]['winner'].unique()
