@@ -163,5 +163,6 @@ elif part == "Analysis":
                                               line=dict(color='red', width=4)))
 
             fig.update_layout(title='Target-' + str(target))
-            fig.show()
+            st.write(fig)
+            
         
