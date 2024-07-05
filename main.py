@@ -145,4 +145,23 @@ elif part == "Analysis":
             data = {'Field': ['Vanue', 'City', 'Toss Winner', 'DLS Methode', 'POM', 'Winner'], 'Name': [r3[0], r4[0], r5[0], r6[0], r1[0], r2[0]]} 
             fg = pd.DataFrame(data) 
             st.table(fg)
+            fig = go.Figure()
+            runs = fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over'))
+            wicket_text = temp_df['wickets_in_over'].astype(str)
+            wicket_y = temp_df['runs_after_over'] + temp_df['wickets_in_over'] * 1  # adjust y-position based on wickets
+            wicket_y[wicket_y == temp_df['runs_after_over']] = None  # hide scatter points for 0 wickets
+
+            wicket = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=wicket_y,  # use adjusted y-position
+                                               mode='markers', name='Wickets in Over',
+                                               marker=dict(color='yellow', size=10),
+                                               text=wicket_text, textposition='top center'))
+
+# Line plots for batting and bowling teams
+            batting_team = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Batting side',
+                                              line=dict(color='#00a65a', width=3)))
+            bowling_team = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Bowling Side',
+                                              line=dict(color='red', width=4)))
+
+            fig.update_layout(title='Target-' + str(target))
+            fig.show()
         
