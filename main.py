@@ -128,24 +128,6 @@ elif part == "Analysis":
             st.write("Error: Match is not Existed")
         else:
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', name='Wickets in Over', marker=dict(color='yellow')))
-            runs = fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over', marker=dict(color='purple')))
-            fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Probability of ' +a1, line=dict(color='#00a65a', width=4)))
-            fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Probability of '+ b1, line=dict(color='red', width=4)))
-            fig.update_layout(title='Target-' + str(target), legend_title='Legend')
-            st.plotly_chart(fig)
-            #st.write(delivery_df[delivery_df['match_id']==l])
-            st.subheader('Summary')
-            r1 = match[match['id'] == l]['player_of_match'].unique()
-            r2 = match[match['id'] == l]['winner'].unique()
-            r3 = match[match['id'] == l]['venue'].unique()
-            r4 = match[match['id'] == l]['city'].unique()
-            r5 = match[match['id'] == l]['toss_winner'].unique()
-            r6 = match[match['id'] == l]['dl_applied'].unique() 
-            data = {'Field': ['Vanue', 'City', 'Toss Winner', 'DLS Methode', 'POM', 'Winner'], 'Name': [r3[0], r4[0], r5[0], r6[0], r1[0], r2[0]]} 
-            fg = pd.DataFrame(data) 
-            st.table(fg)
-            fig = go.Figure()
             runs = fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over'], name='Runs in Over'))
             wicket_text = temp_df['wickets_in_over'].astype(str)
             wicket_y = temp_df['runs_after_over'] + temp_df['wickets_in_over'] * 1  # adjust y-position based on wickets
@@ -157,12 +139,24 @@ elif part == "Analysis":
                                                text=wicket_text, textposition='top center'))
 
 # Line plots for batting and bowling teams
-            batting_team = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Batting side',
+            batting_team = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', name='Win Prrobability of'+a1,
                                               line=dict(color='#00a65a', width=3)))
-            bowling_team = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Bowling Side',
+            bowling_team = fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', name='Win Prrobability of'+b1,
                                               line=dict(color='red', width=4)))
 
             fig.update_layout(title='Target-' + str(target))
             st.write(fig)
+            #st.write(delivery_df[delivery_df['match_id']==l])
+            st.subheader('Summary')
+            r1 = match[match['id'] == l]['player_of_match'].unique()
+            r2 = match[match['id'] == l]['winner'].unique()
+            r3 = match[match['id'] == l]['venue'].unique()
+            r4 = match[match['id'] == l]['city'].unique()
+            r5 = match[match['id'] == l]['toss_winner'].unique()
+            r6 = match[match['id'] == l]['dl_applied'].unique() 
+            data = {'Field': ['Vanue', 'City', 'Toss Winner', 'DLS Methode', 'POM', 'Winner'], 'Name': [r3[0], r4[0], r5[0], r6[0], r1[0], r2[0]]} 
+            fg = pd.DataFrame(data) 
+            st.table(fg)
+            
             
         
