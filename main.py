@@ -61,10 +61,14 @@ if part == "Prediction":
         l=st.number_input('required run rate')
 
     n=pipe.predict_proba(pd.DataFrame(columns=['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket'],data=np.array([a,b,c,d,e,f,k,g,l,h,i]).reshape(1,11))).astype(float)
-    probablity=str(int(n[0][1]*100))
+    probablity1=int(n[0][1]*100)
+    probablity2=int(n[0][0]*100)
+    data=[probablity1,probablity2]
+    data1=[a,b]
     if a!=b:
         if st.button('Predict'):
-            st.write(f"Win probablity of Batting Team:  :red[{probablity}]"+"%")
+          import plotly.express as px
+          px.pie(df,values=data,names=data1)
 
 elif part == "Analysis":
     st.title('Analysis of Previous Matches')
