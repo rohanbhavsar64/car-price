@@ -67,8 +67,8 @@ if part == "Prediction":
     data1=[a,b]
     if a!=b:
         if st.button('Predict'):
-          fig = go.Figure(data=[go.Pie(labels=data1, values=data, hole=.0)])
-          fig.show()
+          fig = go.Figure(data=[go.Pie(labels=data1, values=data, hole=.5)])
+          st.write(fig)
 
 elif part == "Analysis":
     st.title('Analysis of Previous Matches')
