@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # In[36]:
-
+!pip install operator
 
 import numpy as np
 
