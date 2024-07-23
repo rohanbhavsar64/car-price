@@ -28,6 +28,7 @@ print(transfusion.head(2))
 print(transfusion['target'].value_counts(normalize=True).round(3))
 
 # Import train_test_split from sklearn.model_selection module
+import streamlit as st
 from sklearn.model_selection import train_test_split
 
 # Split transfusion into X_train, X_test, y_train and y_test datasets, stratifying on the target column
@@ -36,7 +37,7 @@ y = transfusion['target']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 # Print the first 2 rows of the X_train DataFrame
-print(X_train.head(2))
+st.write(X_train.head(2))
 
 !pip install tpot
 
@@ -54,14 +55,14 @@ tpot.fit(X_train, y_train)
 
 # Print tpot_auc_score, rounding it to 4 decimal places
 tpot_auc_score = roc_auc_score(y_test, tpot.predict_proba(X_test)[:, 1])
-print(f'TPOT AUC score: {tpot_auc_score:.4f}')
+st.write(f'TPOT AUC score: {tpot_auc_score:.4f}')
 
 # Print idx and transform in the for-loop to display the pipeline steps
 for idx, transform in enumerate(tpot.fitted_pipeline_):
-    print(f'Step {idx}: {transform}')
+    st.write(f'Step {idx}: {transform}')
 
 # Print X_train's variance using var() method and round it to 3 decimal places
-print(X_train.var().round(3))
+st.write(X_train.var().round(3))
 
 # Copy X_train and X_test into X_train_normed and X_test_normed respectively
 X_train_normed = X_train.copy()
@@ -78,7 +79,7 @@ for df in [X_train_normed, X_test_normed]:
     df.drop(columns=[col_to_normalize], inplace=True)
 
 # Print X_train_normed variance using var() method and round it to 3 decimal places
-print(X_train_normed.var().round(3))
+st.write(X_train_normed.var().round(3))
 
 # Import linear_model from sklearn
 from sklearn.linear_model import LogisticRegression
@@ -93,7 +94,7 @@ logreg.fit(X_train_normed, y_train)
 # Print logreg_auc_score
 y_pred_proba = logreg.predict_proba(X_test_normed[:, 1])
 logreg_auc_score = roc_auc_score(y_test, y_pred_proba)
-print(f'Logistic Regression AUC score: {logreg_auc_score:.4f}')
+st.write(f'Logistic Regression AUC score: {logreg_auc_score:.4f}')
 
 # Import itemgetter from operator module
 from operator import itemgetter
@@ -106,4 +107,4 @@ sorted_model_scores = sorted(model_scores, key=itemgetter(1), reverse=True)
 
 # Print the sorted list of models
 for model_name, model_score in sorted_model_scores:
-    print(f'{model_name}: {model_score:.4f}')
+    st.write(f'{model_name}: {model_score:.4f}')
